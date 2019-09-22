@@ -1,0 +1,62 @@
+<h1>Listado de heroes</h1>
+<hr>
+<div class="row">
+    <div class="col text-right">
+        <button class="btn btn-primary" [routerLink]="['/heroe/nuevo']">
+            <i class="fa fa-plus"></i> Agregar
+        </button>
+    </div>
+</div>
+
+<table class="table table-hover mt-3 animated fadeIn fast" *ngIf="(!cargando && heroes.length > 0) || !error">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Poder</th>
+            <th scope="col">Vivo</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let heroe of heroes; let i = index;">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{heroe.nombre}}</td>
+            <td>{{heroe.poder}}</td>
+            <td>
+                <label class="badge badge-success" *ngIf="heroe.vivo">Vivo</label>
+                <label class="badge badge-danger" *ngIf="!heroe.vivo">Muerto</label>
+            </td>
+            <td>
+                <button class="btn btn-info mr-1" [routerLink]="['/heroe', heroe.id]">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-danger" (click)="borrarHeroe(heroe, i)">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="alert alert-info text-center mt-3 animated fadeIn fast" *ngIf="cargando">
+    <h3 class="alert-heading">Cargando</h3>
+    <p>
+        <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+    </p>
+    <p>Espere por favor...</p>
+</div>
+
+<div class="alert alert-warning text-center mt-3" *ngIf="!cargando && heroes.length === 0">
+    <h3 class="alert-heading">No hay registros</h3>
+    <p>
+        <i class="fa fa-exclamation fa-2x"></i>
+    </p>
+</div>
+
+<div class="alert alert-danger text-center mt-3" *ngIf="error">
+    <h3 class="alert-heading">Problemas con el servidor</h3>
+    <p>
+        <i class="fa fa-close fa-2x"></i>
+    </p>
+</div>
